@@ -59,3 +59,26 @@ graph LR
     %% Respuesta final al socio
     Controller -- "5: showMessage()" --> UI
 ```
+
+EJERCICIO 4: 
+```mermaid
+stateDiagram-v2
+    [*] --> ReceiveRequest: Receive booking request
+    
+    ReceiveRequest --> CheckPayment: Is fee paid?
+    
+    state CheckPayment <<choice>>
+    CheckPayment --> CheckCapacity: [Yes]
+    CheckPayment --> Reject: [No]
+    
+    state CheckCapacity <<choice>>
+    CheckCapacity --> Confirm: [Is available]
+    CheckCapacity --> Reject: [Is full]
+    
+    Confirm --> BlockSpot: Block spot
+    BlockSpot --> SendEmail: Send confirmation email
+    SendEmail --> [*]
+    
+    Reject --> ShowError: Show error message
+    ShowError --> [*]
+```

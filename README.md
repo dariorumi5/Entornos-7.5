@@ -16,3 +16,29 @@ flowchart LR
     Member(("Member")) --> UC2
     Admin(("Administrator")) --> UC4 & UC5
 ```
+EJERCICIO 2:
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Member as :Member
+    participant UI as :WebInterface
+    participant Controller as :ReservationManager
+    participant DB as :DataBase
+
+    Member->>UI: clickConfirm()
+    
+    UI->>Controller: confirmBooking(memberId, classId)
+    
+    Controller->>DB: checkAvailability(classId)
+    DB-->>Controller: status (Full/Available)
+
+    alt Available
+        Controller->>DB: saveBooking()
+        DB-->>Controller: ok
+        Controller-->>UI: showSuccess()
+        UI-->>Member: "Book Confirmed!"
+    else Full
+        Controller-->>UI: showWaitlist()
+        UI-->>Member: "Get on the Waitlist?"
+    end
+```

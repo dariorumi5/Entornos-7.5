@@ -48,15 +48,12 @@ EJERCICIO 3:
 graph LR
     Socio((:Member)) -- "1: clickConfirm()" --> UI[:WebInterface]
     UI -- "2: confirmBooking()" --> Controller[:BookingManagement]
-    
-    %% La comunicación entre el gestor y la base de datos
+
     Controller -- "3: checkAvailability()" --> DB[(:DataBase)]
     DB -. "3.1: statusResponse" .-> Controller
-    
-    %% Si todo está bien, se guarda
+
     Controller -- "4 [if OK]: saveBooking()" --> DB
-    
-    %% Respuesta final al socio
+
     Controller -- "5: showMessage()" --> UI
 ```
 
@@ -81,4 +78,21 @@ stateDiagram-v2
     
     Reject --> ShowError: Show error message
     ShowError --> [*]
+```
+
+EJERCICIO 5:
+```mermaid
+stateDiagram-v2
+    [*] --> Pending: create()
+    
+    Pending --> Confirmed: confirm()
+    Pending --> Cancelled: cancel()
+    
+    Confirmed --> Attended: checkIn()
+    Confirmed --> NoShow: sessionEnded() [no check-in]
+    Confirmed --> Cancelled: cancel()
+    
+    Attended --> [*]
+    NoShow --> [*]
+    Cancelled --> [*]
 ```

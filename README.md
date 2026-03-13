@@ -42,3 +42,20 @@ sequenceDiagram
         UI-->>Member: "Get on the Waitlist?"
     end
 ```
+
+EJERCICIO 3:
+```mermaid
+graph LR
+    Socio((:Member)) -- "1: clickConfirm()" --> UI[:WebInterface]
+    UI -- "2: confirmBooking()" --> Controller[:BookingManagement]
+    
+    %% La comunicación entre el gestor y la base de datos
+    Controller -- "3: checkAvailability()" --> DB[(:DataBase)]
+    DB -. "3.1: statusResponse" .-> Controller
+    
+    %% Si todo está bien, se guarda
+    Controller -- "4 [if OK]: saveBooking()" --> DB
+    
+    %% Respuesta final al socio
+    Controller -- "5: showMessage()" --> UI
+```
